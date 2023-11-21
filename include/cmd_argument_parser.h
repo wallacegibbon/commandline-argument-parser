@@ -7,6 +7,8 @@ struct cmd_argument_parser {
 	int index;
 	const char **keys;
 	const char **values;
+	const char **others;
+	int others_index;
 	int option_count;
 };
 
