@@ -9,7 +9,6 @@ int main(int argc, const char **argv) {
 	int active;
 	int i;
 
-	printf("=====================================================\n");
 	printf("raw arguments:\n\t");
 	for (i = 0; i < argc; i++)
 		printf("%s ", argv[i]);
