@@ -14,17 +14,17 @@ static inline int is_option(const char *s)
 int cmd_argument_parser_step(struct cmd_argument_parser *self)
 {
 	if (self->index == self->argc)
-		return 0;
+		return 1;
 
 	if (!is_option(self->argv[self->index])) {
 		self->others[self->others_index++] = self->argv[self->index];
 		self->index++;
-		return 1;
+		return 0;
 	}
 
 	self->keys[self->option_count] = self->argv[self->index] + 2;
-	if (self->index == self->argc - 1
-	    || is_option(self->argv[self->index + 1])) {
+	if (self->index == self->argc - 1 ||
+			is_option(self->argv[self->index + 1])) {
 		self->values[self->option_count] = NULL;
 		self->index++;
 	} else {
@@ -33,10 +33,12 @@ int cmd_argument_parser_step(struct cmd_argument_parser *self)
 	}
 	self->option_count++;
 
-	return 1;
+	return 0;
 }
 
-/// You need to call `cmd_argument_parser_deinit` to free some allocated memories.
+/*
+ * We need to call `cmd_argument_parser_deinit` to free allocated memories.
+ */
 void cmd_argument_parser_init(struct cmd_argument_parser *self,
 		int argc, const char **argv)
 {
@@ -49,7 +51,7 @@ void cmd_argument_parser_init(struct cmd_argument_parser *self,
 	self->others_index = 0;
 	self->option_count = 0;
 
-	while (cmd_argument_parser_step(self)) ;
+	while (!cmd_argument_parser_step(self));
 }
 
 void cmd_argument_parser_deinit(struct cmd_argument_parser *self)

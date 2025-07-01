@@ -6,13 +6,22 @@ extern "C" {
 #endif
 
 struct cmd_argument_parser {
+	/* argc and argv are copied from arguments of `main` function */
 	int argc;
 	const char **argv;
-	int index;
+
+	/* keys and values are 2 arrays whose element index matches */
 	const char **keys;
 	const char **values;
+
 	const char **others;
+
+	/* index is a cursor to iterat through the arguments with values */
+	int index;
+
+	/* others_index is a cursor to iterate through simple arguments */
 	int others_index;
+
 	int option_count;
 };
 
